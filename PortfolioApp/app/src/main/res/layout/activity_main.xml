@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.android.dalia.portfolioapp.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Nanodegree Apps!"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Popular Movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/popularMoviesButton"
+            android:layout_below="@id/textView"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/MyButton"/>
+
+        <Button
+            android:text="Stock Hawk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/stockHawkButton"
+            android:layout_below="@id/popularMoviesButton"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:text="Build it bigger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buildItBiggerButton"
+            android:layout_below="@id/stockHawkButton"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:text="Make your app material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/makeYourAppMaterialButton"
+            android:layout_below="@id/buildItBiggerButton"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:text="Go Ubiquitous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/goUbiquitousButton"
+            android:layout_below="@id/makeYourAppMaterialButton"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/MyButton" />
+
+        <Button
+            android:text="Capstone: My own app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/capstoneMyOwnAppButton"
+            android:layout_below="@id/goUbiquitousButton"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:theme="@style/LastButton"/>
+
+    </RelativeLayout>
+
+</ScrollView>
