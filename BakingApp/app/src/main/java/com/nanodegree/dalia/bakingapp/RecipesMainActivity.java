@@ -3,6 +3,8 @@ package com.nanodegree.dalia.bakingapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import butterknife.ButterKnife;
+
 public class RecipesMainActivity extends AppCompatActivity {
 
     @Override
@@ -10,10 +12,7 @@ public class RecipesMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes_main);
 
-        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipesMainFragment, new RecipesMainFragment())
-                    .commit();
-        }
+        ButterKnife.bind(this);
+        
     }
 }
