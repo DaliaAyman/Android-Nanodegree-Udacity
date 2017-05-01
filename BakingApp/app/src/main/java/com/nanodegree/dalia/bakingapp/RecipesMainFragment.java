@@ -62,6 +62,13 @@ public class RecipesMainFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+                        Recipe recipe = recipesList.get(position);
+
+                        Bundle args = new Bundle();
+                        args.putSerializable("recipe", recipe);
+
+                        intent.putExtras(args);
+
                         startActivity(intent);
                     }
 

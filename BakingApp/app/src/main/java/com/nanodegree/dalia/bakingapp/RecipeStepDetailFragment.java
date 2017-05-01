@@ -3,6 +3,7 @@ package com.nanodegree.dalia.bakingapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class RecipeStepDetailFragment extends Fragment {
         if(bundle != null){
 
             Recipe recipe = (Recipe) bundle.get("recipe");
-//            Log.d("Recipe", "Recipe Name: " + recipe.getName());
+            Log.d("Recipe", "Recipe Name: " + recipe.getName());
 
         }
 

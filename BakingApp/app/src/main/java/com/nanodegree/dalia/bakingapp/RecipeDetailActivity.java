@@ -20,13 +20,18 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Recipe recipe = (Recipe)getIntent().getSerializableExtra("recipe");
 
         if(findViewById(R.id.recipeStepDetailFragment) != null){
             mTwoPane = true;
 
             if(savedInstanceState == null){
+                RecipeStepDetailFragment recipeStepDetailFragment = new RecipeStepDetailFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("recipe", recipe);
+                recipeStepDetailFragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.recipeStepDetailFragment, new RecipeStepDetailFragment(), "details")
+                        .replace(R.id.recipeStepDetailFragment, recipeStepDetailFragment, "details")
                         .commit();
             }
         }else{

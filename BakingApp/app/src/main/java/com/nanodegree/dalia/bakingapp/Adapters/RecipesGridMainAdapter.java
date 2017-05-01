@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nanodegree.dalia.bakingapp.Models.Recipe;
 import com.nanodegree.dalia.bakingapp.R;
 
@@ -43,7 +44,8 @@ public class RecipesGridMainAdapter extends RecyclerView.Adapter<RecipesGridMain
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recipe recipe = recipesList.get(position);
         holder.name.setText(recipe.getName());
-        holder.servingNo.setText(String.valueOf(recipe.getServingsNo()));
+        Glide.with(context).load(recipe.getImageURL()).into(holder.image);
+        holder.servingNo.setText(String.valueOf(recipe.getServingsNo()) + " Servings");
     }
 
     public void setRecipesList(List<Recipe> recipesList) {
