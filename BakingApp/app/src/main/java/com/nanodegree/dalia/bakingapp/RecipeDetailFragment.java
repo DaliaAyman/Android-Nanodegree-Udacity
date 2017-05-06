@@ -3,20 +3,31 @@ package com.nanodegree.dalia.bakingapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.nanodegree.dalia.bakingapp.Adapters.StepsAdapter;
+import com.nanodegree.dalia.bakingapp.Models.Ingredient;
 import com.nanodegree.dalia.bakingapp.Models.Recipe;
+import com.nanodegree.dalia.bakingapp.Models.Step;
+import com.nanodegree.dalia.bakingapp.Utilities.SimpleDividerItemDecoration;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class RecipeDetailFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @BindView(R.id.ingredients_title) TextView ingredientsTitle;
+    @BindView(R.id.ingredients_value) TextView ingredientsValue;
+    @BindView(R.id.steps_title) TextView stepsTitle;
+    @BindView(R.id.stepsRecyclerView) RecyclerView stepsRecyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -24,31 +35,9 @@ public class RecipeDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeDetailFragment newInstance(String param1, String param2) {
-        RecipeDetailFragment fragment = new RecipeDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -57,9 +46,46 @@ public class RecipeDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
+        ButterKnife.bind(this, view);
 
+
+        Bundle bundle = getArguments();
+        if(bundle != null){
+
+            ingredientsTitle.setText("Ingredients");
+            stepsTitle.setText("Steps");
+
+            Recipe recipe = (Recipe) bundle.get("recipe");
+            Log.d("Recipe", "Recipe Name: " + recipe.getName());
+
+            List<Ingredient> ingredientArrayList = recipe.getIngredientsList();
+            listIngredientsInView(ingredientArrayList);
+
+            List<Step> stepsList = recipe.getStepsList();
+            listStepsInRecyclerView(stepsList);
+
+
+        }
 
         return view;
+    }
+
+    private void listIngredientsInView(List<Ingredient> ingredientList){
+        for(int i=0; i<ingredientList.size(); i++){
+            Ingredient ingredient = ingredientList.get(i);
+
+            ingredientsValue.append(ingredient.getQuantity() + " " + ingredient.getMeasure() + ", " + ingredient.getIngredient() + "\n");
+        }
+    }
+
+    private void listStepsInRecyclerView(List<Step> stepsList){
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        stepsRecyclerView.setLayoutManager(layoutManager);
+
+        stepsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
+
+        StepsAdapter stepsAdapter = new StepsAdapter(getContext(), stepsList);
+        stepsRecyclerView.setAdapter(stepsAdapter);
     }
 
     public void onButtonPressed(Recipe recipe) {

@@ -1,11 +1,13 @@
 package com.nanodegree.dalia.bakingapp;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +27,14 @@ import com.nanodegree.dalia.bakingapp.Utilities.RecyclerItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipesMainFragment extends Fragment {
 
-    RecyclerView recipesRecyclerView;
+    @BindView(R.id.grid_recycler_view) RecyclerView recipesRecyclerView;
     RecipesGridMainAdapter recipesAdapter;
+    int layoutSpan;
     RecyclerView.LayoutManager recipesLayoutManager;
     List<Recipe> recipesList;
 
@@ -43,9 +49,10 @@ public class RecipesMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_main, container, false);
 
-        recipesRecyclerView = (RecyclerView) view.findViewById(R.id.grid_recycler_view);
+        ButterKnife.bind(this, view);
 
-        recipesLayoutManager = new GridLayoutManager(getContext(), 2);
+        layoutSpan = setLayoutSpan(getActivity());
+        recipesLayoutManager = new GridLayoutManager(getContext(), layoutSpan);
 
         recipesRecyclerView.setLayoutManager(recipesLayoutManager);
 
@@ -79,6 +86,23 @@ public class RecipesMainFragment extends Fragment {
                 }));
 
         return view;
+    }
+
+    public int setLayoutSpan(Context context) {
+        int span = 0;
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+
+        if (dpWidth < 640) {
+            span = 1;
+
+        } else span = 3;
+
+        return span;
+
+
     }
 
     private void loadRecipes(){

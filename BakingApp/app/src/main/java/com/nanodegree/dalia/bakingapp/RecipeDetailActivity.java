@@ -21,6 +21,15 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         setSupportActionBar(toolbar);
 
         Recipe recipe = (Recipe)getIntent().getSerializableExtra("recipe");
+        if(savedInstanceState == null){
+            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("recipe", recipe);
+            recipeDetailFragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.recipeDetailMainFragment, recipeDetailFragment, "main")
+                    .commit();
+        }
 
         if(findViewById(R.id.recipeStepDetailFragment) != null){
             mTwoPane = true;

@@ -19,7 +19,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.recipeStepDetailFragment, detailFragment, "detail")
+                    .replace(R.id.recipeStepDetailFragment, detailFragment, "detail")
                     .commit();
         }
     }
