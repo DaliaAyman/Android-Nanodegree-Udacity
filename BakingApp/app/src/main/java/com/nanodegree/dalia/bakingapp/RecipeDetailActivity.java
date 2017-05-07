@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.nanodegree.dalia.bakingapp.Models.Recipe;
+import com.nanodegree.dalia.bakingapp.Models.Step;
 
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnFragmentInteractionListener{
 
@@ -51,13 +52,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     }
 
     @Override
-    public void onFragmentInteraction(Recipe recipe) {
+    public void onFragmentInteraction(Step step) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle args = new Bundle();
-            args.putSerializable("recipe", recipe);
+            args.putSerializable("step", step);
 
             RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
             fragment.setArguments(args);
@@ -70,7 +71,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             Intent intent = new Intent(this, RecipeStepDetailActivity.class);
 
             Bundle args = new Bundle();
-            args.putSerializable("recipe", recipe);
+            args.putSerializable("step", step);
 
             intent.putExtras(args);
 

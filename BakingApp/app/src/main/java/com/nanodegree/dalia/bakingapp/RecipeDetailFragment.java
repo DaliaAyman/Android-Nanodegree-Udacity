@@ -15,6 +15,7 @@ import com.nanodegree.dalia.bakingapp.Adapters.StepsAdapter;
 import com.nanodegree.dalia.bakingapp.Models.Ingredient;
 import com.nanodegree.dalia.bakingapp.Models.Recipe;
 import com.nanodegree.dalia.bakingapp.Models.Step;
+import com.nanodegree.dalia.bakingapp.Utilities.RecyclerItemClickListener;
 import com.nanodegree.dalia.bakingapp.Utilities.SimpleDividerItemDecoration;
 
 import java.util.List;
@@ -61,9 +62,20 @@ public class RecipeDetailFragment extends Fragment {
             List<Ingredient> ingredientArrayList = recipe.getIngredientsList();
             listIngredientsInView(ingredientArrayList);
 
-            List<Step> stepsList = recipe.getStepsList();
+            final List<Step> stepsList = recipe.getStepsList();
             listStepsInRecyclerView(stepsList);
+            stepsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), stepsRecyclerView,
+                    new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            onStepPressed(stepsList.get(position));
+                        }
 
+                        @Override
+                        public void onItemLongClick(View view, int position) {
+
+                        }
+                    }));
 
         }
 
@@ -88,9 +100,9 @@ public class RecipeDetailFragment extends Fragment {
         stepsRecyclerView.setAdapter(stepsAdapter);
     }
 
-    public void onButtonPressed(Recipe recipe) {
+    public void onStepPressed(Step step) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(recipe);
+            mListener.onFragmentInteraction(step);
         }
     }
 
@@ -112,7 +124,6 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Recipe recipe);
+        void onFragmentInteraction(Step step);
     }
 }

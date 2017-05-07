@@ -13,6 +13,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         if(savedInstanceState == null){
             Bundle args = new Bundle();
             args.putSerializable("recipe", getIntent().getSerializableExtra("recipe"));
+            args.putSerializable("step", getIntent().getSerializableExtra("step"));
 
             RecipeStepDetailFragment detailFragment = new RecipeStepDetailFragment();
             detailFragment.setArguments(args);
