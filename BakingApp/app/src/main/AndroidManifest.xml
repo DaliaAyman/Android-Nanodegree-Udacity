@@ -17,10 +17,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RecipeDetailActivity">
+        <activity android:name=".RecipeDetailActivity"
+            android:parentActivityName=".RecipesMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nanodegree.dalia.bakingapp.RecipesMainActivity" />>
         </activity>
 
-        <activity android:name=".RecipeStepDetailActivity" />
+        <activity android:name=".RecipeStepDetailActivity"
+            android:parentActivityName=".RecipeDetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nanodegree.dalia.bakingapp.RecipeDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

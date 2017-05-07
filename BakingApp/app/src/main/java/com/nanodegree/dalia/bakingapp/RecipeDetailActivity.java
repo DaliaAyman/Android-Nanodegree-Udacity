@@ -12,6 +12,7 @@ import com.nanodegree.dalia.bakingapp.Models.Step;
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnFragmentInteractionListener{
 
     private boolean mTwoPane;
+    Recipe recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +21,12 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Recipe recipe = (Recipe)getIntent().getSerializableExtra("recipe");
+        recipe = (Recipe)getIntent().getSerializableExtra("recipe");
+        getSupportActionBar().setTitle(recipe.getName());
+
         if(savedInstanceState == null){
             RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             Bundle args = new Bundle();
@@ -72,6 +77,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
             Bundle args = new Bundle();
             args.putSerializable("step", step);
+            args.putSerializable("recipe", recipe);
 
             intent.putExtras(args);
 
