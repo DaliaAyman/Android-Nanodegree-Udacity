@@ -125,7 +125,7 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
             if(currentStep.isFirstStep(recipeSteps)){
                 decrementStepBtn.setVisibility(View.INVISIBLE);
             }
-            
+
             incrementStepBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
