@@ -3,16 +3,18 @@ package com.nanodegree.dalia.bakingapp;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.google.gson.Gson;
 import com.nanodegree.dalia.bakingapp.Models.Ingredient;
 import com.nanodegree.dalia.bakingapp.Models.Recipe;
+import com.nanodegree.dalia.bakingapp.Utilities.Globals;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.nanodegree.dalia.bakingapp.Utilities.Globals.loadRecipePref;
 
 /**
  * Created by Dalia on 5/14/2017.
@@ -38,6 +40,7 @@ public class ListWidgetService extends RemoteViewsService {
         public ListRemoteViewsFactory(Context context, Intent intent) {
             this.context = context;
             mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            Log.d("Widget", "ListRemoteViewsFactory appWidgetId: " + mAppWidgetId);
         }
 
 
@@ -66,9 +69,9 @@ public class ListWidgetService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-            Gson gson = new Gson();
-            SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sp_widget),0);
-            mRecipe =  gson.fromJson(sharedPreferences.getString(String.valueOf(mAppWidgetId),null),Recipe.class);
+            mRecipe = Globals.loadRecipePref(context);
+            Log.d("Recipe Widget", "Recipe in widget: " + loadRecipePref(context).getName());
+
         }
 
         @Override
@@ -80,7 +83,7 @@ public class ListWidgetService extends RemoteViewsService {
         public RemoteViews getViewAt(int position){
             Ingredient ingredient = mRecipe.getIngredientsList().get(position);
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.item_widget_ingredient);
-            rv.setTextViewText(R.id.widget_ingredient_item_details, ingredient.toString());
+            rv.setTextViewText(R.id.widget_ingredient_item_details, ingredient.getQuantity() + " " + ingredient.getIngredient());
             return rv;
         }
 

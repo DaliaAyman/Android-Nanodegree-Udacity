@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +15,10 @@ import com.nanodegree.dalia.bakingapp.Models.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.nanodegree.dalia.bakingapp.Utilities.Globals.saveRecipePref;
 
 /**
  * The configuration screen for the {@link IngredientsListWidget IngredientsListWidget} AppWidget.
@@ -24,7 +26,9 @@ import butterknife.ButterKnife;
 public class IngredientsListWidgetConfigureActivity extends Activity implements RecipesAPI.CommunicateWithUI{
 
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    ListView recipesListView;
+    @BindView(R.id.widget_list_recipes) ListView recipesListView;
+
+    List<Recipe> recipesList;
     RecipesWidgetAdapter recipesWidgetAdapter;
 
     AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -33,8 +37,8 @@ public class IngredientsListWidgetConfigureActivity extends Activity implements 
 
             final Context context = IngredientsListWidgetConfigureActivity.this;
 
-            // When the button is clicked, store the string locally
-//            saveTitlePref(context, mAppWidgetId, widgetText);
+            // When an item is clicked, store the string locally
+            saveRecipePref(context, mAppWidgetId, recipesList.get(i));
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -52,31 +56,6 @@ public class IngredientsListWidgetConfigureActivity extends Activity implements 
         super();
     }
 
-    // Write the prefix to the SharedPreferences object for this widget
-    static void saveTitlePref(Context context, int appWidgetId, String text) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(context.getString(R.string.sp_widget), 0).edit();
-        prefs.putString(String.valueOf(appWidgetId), text);
-        prefs.apply();
-    }
-
-    // Read the prefix from the SharedPreferences object for this widget.
-    // If there is no preference saved, get the default from a resource
-    static String loadTitlePref(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(context.getString(R.string.sp_widget), 0);
-        String titleValue = prefs.getString(String.valueOf(appWidgetId), null);
-        if (titleValue != null) {
-            return titleValue;
-        } else {
-            return context.getString(R.string.appwidget_text);
-        }
-    }
-
-    static void deleteTitlePref(Context context, int appWidgetId) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(context.getString(R.string.sp_widget), 0).edit();
-        prefs.remove(String.valueOf(appWidgetId));
-        prefs.apply();
-    }
-
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -86,7 +65,8 @@ public class IngredientsListWidgetConfigureActivity extends Activity implements 
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.ingredients_list_widget_configure);
-        recipesListView = (ListView) findViewById(R.id.widget_list_recipes);
+
+        ButterKnife.bind(this);
 
         recipesListView.setOnItemClickListener(mOnItemClickListener);
 
@@ -109,6 +89,7 @@ public class IngredientsListWidgetConfigureActivity extends Activity implements 
     }
 
     private void createListViewItems(List<Recipe> recipes){
+        recipesList = recipes;
         recipesWidgetAdapter = new RecipesWidgetAdapter(recipes);
         recipesListView.setAdapter(recipesWidgetAdapter);
     }

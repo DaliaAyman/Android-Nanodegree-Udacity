@@ -6,18 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.nanodegree.dalia.bakingapp.Models.Recipe;
+import com.nanodegree.dalia.bakingapp.Utilities.Globals;
+
 /**
  * Implementation of App Widget functionality.
  */
 public class IngredientsListWidget extends AppWidgetProvider {
+    static Recipe recipe;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
+        recipe = Globals.loadRecipePref(context);
+
         CharSequence widgetIngredientsText = context.getString(R.string.appwidget_ingredient_text_label);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_list_widget);
-        views.setTextViewText(R.id.widget_ingredients_label, widgetIngredientsText);
+        views.setTextViewText(R.id.widget_ingredients_label, widgetIngredientsText + " of " + recipe.getName());
 
         Intent intent = new Intent(context, ListWidgetService.class);
         // Add the app widget ID to the intent extras.
