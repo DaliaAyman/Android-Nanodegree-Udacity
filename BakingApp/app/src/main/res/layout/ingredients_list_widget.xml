@@ -13,7 +13,8 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/appwidget_ingredient_text_label"/>
+        android:text="@string/appwidget_ingredient_text_label"
+        android:textColor="@android:color/black"/>
 
     <ListView
         android:id="@+id/widget_list_ingredients"
