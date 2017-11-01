@@ -1,4 +1,4 @@
-package com.android.dalia.popularmovies;
+package com.android.dalia.popularmovies.models;
 
 /**
  * Created by Dalia on 12/31/2016.

@@ -5,13 +5,13 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.dalia.popularmovies.MainActivity">
+    tools:context="com.android.dalia.popularmovies.movies.MoviesActivity">
 
 
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.android.dalia.popularmovies.MainFragment"
+        android:name="com.android.dalia.popularmovies.movies.MoviesFragment"
         android:id="@+id/main_fragment" />
 
 </RelativeLayout>
