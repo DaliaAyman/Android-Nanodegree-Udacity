@@ -1,5 +1,7 @@
 package com.android.dalia.popularmovies;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.android.dalia.popularmovies.models.Movie;
 import com.android.dalia.popularmovies.movies.MovieItemListener;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -17,16 +19,16 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private List<Movie> MovieList;
+    private List<Movie> movieList;
     private MovieItemListener clickListener;
 
     public RecyclerViewAdapter(List<Movie> movieList, MovieItemListener clickListener) {
-        MovieList = movieList;
+        this.movieList = movieList;
         this.clickListener = clickListener;
     }
 
     public RecyclerViewAdapter(List<Movie> MovieList) {
-        this.MovieList = MovieList;
+        this.movieList = MovieList;
     }
 
     @Override
@@ -37,27 +39,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        Movie Movie = MovieList.get(position);
+        Movie movie = movieList.get(position);
 
-        //holder.movieImageView
-//        Glide.with(this)
-//                .lo
+        String moviePoster = movie.getPosterImage();
 
-        holder.itemView.setTag(Movie);
+        Picasso.with(holder.itemView.getContext()).load("http://image.tmdb.org/t/p/w185//" + moviePoster)
+//                .placeholder(R.drawable.movie_loading)
+                .into(holder.movieImageView);
+
+        holder.itemView.setTag(movie);
 //        holder.itemView.setOnLongClickListener(longClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return MovieList.size();
+        return movieList.size();
     }
 
-    public void addItems(List<Movie> MovieList){
-        this.MovieList = MovieList;
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void addItems(List<Movie> movieList){
+        this.movieList = movieList;
         notifyDataSetChanged();
     }
 
-    static class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    class RecyclerViewHolder extends RecyclerView.ViewHolder{
         private ImageView movieImageView;
 
         public RecyclerViewHolder(View itemView) {

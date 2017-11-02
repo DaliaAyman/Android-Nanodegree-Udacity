@@ -60,7 +60,6 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
     public void showMovies(List<Movie> movies) {
         Log.d("movies", "movies size = " + movies.size());
         moviesAdapter.addItems(movies);
-        moviesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -75,11 +74,9 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
 
     @Override
     public void setupRecyclerView() {
-        ArrayList<Movie> movies = new ArrayList<>();
-        movies.add(new Movie("", "", "", "", 9));
-        moviesAdapter = new RecyclerViewAdapter(movies);
+        moviesAdapter = new RecyclerViewAdapter(new ArrayList<Movie>());
+        moviesGridRecycler.setAdapter(moviesAdapter);
 
         moviesGridRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        moviesGridRecycler.setAdapter(moviesAdapter);
     }
 }
