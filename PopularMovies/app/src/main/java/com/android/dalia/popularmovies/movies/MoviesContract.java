@@ -17,6 +17,6 @@ public interface MoviesContract {
     }
 
     interface Presenter extends BasePresenter{
-        void loadMovies();
+        void loadMovies(String popularity);
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.android.dalia.popularmovies.R;
 import com.android.dalia.popularmovies.RecyclerViewAdapter;
 import com.android.dalia.popularmovies.models.Movie;
+import com.android.dalia.popularmovies.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MoviesFragment extends Fragment implements MoviesContract.View{
+public class MoviesFragment extends Fragment implements MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener{
 
     MoviesContract.Presenter mPresenter;
 
@@ -42,6 +44,7 @@ public class MoviesFragment extends Fragment implements MoviesContract.View{
 
         ButterKnife.bind(this, view);
 
+        mPresenter = new MoviesPresenter(this, this);
         setupRecyclerView();
 
         return view;
@@ -50,12 +53,19 @@ public class MoviesFragment extends Fragment implements MoviesContract.View{
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.loadMovies(Constants.POPULARITY_DESC_SORT_BY);
     }
 
     @Override
     public void showMovies(List<Movie> movies) {
+        Log.d("movies", "movies size = " + movies.size());
+        moviesAdapter.addItems(movies);
+        moviesAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void moviesLoaded(List<Movie> movies) {
+        showMovies(movies);
     }
 
     @Override

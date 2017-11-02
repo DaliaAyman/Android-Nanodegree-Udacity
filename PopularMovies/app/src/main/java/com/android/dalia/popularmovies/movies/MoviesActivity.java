@@ -4,10 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.android.dalia.popularmovies.R;
+import com.android.dalia.popularmovies.models.Movie;
 
-public class MoviesActivity extends AppCompatActivity {
+import java.util.List;
 
-    MoviesPresenter mMoviesPresenter;
+public class MoviesActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,6 @@ public class MoviesActivity extends AppCompatActivity {
 
         // TODO if tablet
 
-        mMoviesPresenter = new MoviesPresenter(moviesFragment);
     }
+
 }

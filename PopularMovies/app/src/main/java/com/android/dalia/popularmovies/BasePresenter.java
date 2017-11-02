@@ -6,5 +6,5 @@ package com.android.dalia.popularmovies;
 
 public interface BasePresenter {
 
-    void start();
+//    void start();
 }
