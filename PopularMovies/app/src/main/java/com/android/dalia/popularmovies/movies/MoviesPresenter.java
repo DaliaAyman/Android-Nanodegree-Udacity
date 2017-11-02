@@ -1,5 +1,17 @@
 package com.android.dalia.popularmovies.movies;
-import com.android.dalia.popularmovies.BasePresenter;
+
+import android.util.Log;
+
+import com.android.dalia.popularmovies.data.remote.MoviesRemoteDataSource;
+import com.android.dalia.popularmovies.data.remote.MoviesResponse;
+import com.android.dalia.popularmovies.models.Movie;
+import com.android.dalia.popularmovies.utils.Constants;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -9,21 +21,37 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MoviesPresenter implements MoviesContract.Presenter{
     MoviesContract.View mMoviesView;
+    MoviesPresenterNotifyViewListener mListener;
+    MoviesRemoteDataSource moviesRemoteDataSource;
 
-
-    public MoviesPresenter(MoviesContract.View mMoviesView) {
+    public MoviesPresenter(MoviesContract.View mMoviesView, MoviesPresenterNotifyViewListener mListener) {
 
         mMoviesView = checkNotNull(mMoviesView);
         mMoviesView.setPresenter(this);
+
+        this.mListener = mListener;
+        moviesRemoteDataSource = new MoviesRemoteDataSource();
+
     }
 
     @Override
-    public void start() {
-        loadMovies();
+    public void loadMovies(String popularity) {
+        moviesRemoteDataSource.getAPI()
+                .listMovies(popularity, Constants.MOVIES_DB_API_KEY_VALUE)
+                .enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                mListener.moviesLoaded(response.body().getResults());
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.d("MoviesPresenter", "onFailure loading movies " + t);
+            }
+        });
     }
 
-    @Override
-    public void loadMovies() {
-
+    public interface MoviesPresenterNotifyViewListener{
+        void moviesLoaded(List<Movie> movies);
     }
 }
