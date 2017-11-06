@@ -3,7 +3,6 @@ package com.android.dalia.popularmovies.movies;
 import android.util.Log;
 
 import com.android.dalia.popularmovies.data.remote.MoviesRemoteDataSource;
-import com.android.dalia.popularmovies.data.remote.MoviesResponse;
 import com.android.dalia.popularmovies.models.Movie;
 import com.android.dalia.popularmovies.utils.Constants;
 
@@ -38,14 +37,14 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     public void loadMovies(String popularity) {
         moviesRemoteDataSource.getAPI()
                 .listMovies(popularity, Constants.MOVIES_DB_API_KEY_VALUE)
-                .enqueue(new Callback<MoviesResponse>() {
+                .enqueue(new Callback<List<Movie>>() {
             @Override
-            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                mListener.moviesLoaded(response.body().getResults());
+            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+                mListener.moviesLoaded(response.body());
             }
 
             @Override
-            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+            public void onFailure(Call<List<Movie>> call, Throwable t) {
                 Log.d("MoviesPresenter", "onFailure loading movies " + t);
             }
         });

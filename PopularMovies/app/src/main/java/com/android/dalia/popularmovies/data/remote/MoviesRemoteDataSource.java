@@ -23,6 +23,7 @@ public class MoviesRemoteDataSource {
     public MoviesAPIService getAPI(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.MOVIES_BASE_URL)
+                .addConverterFactory(new EnvelopeConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

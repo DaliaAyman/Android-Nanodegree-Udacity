@@ -10,7 +10,8 @@ import java.util.List;
  * Created by Dalia on 11/2/2017.
  */
 
-public class MoviesResponse {
+public class EnvelopeMovies<T> {
+
     @SerializedName("page")
     @Expose
     public Integer page;
@@ -20,11 +21,8 @@ public class MoviesResponse {
     @SerializedName("total_pages")
     @Expose
     public Integer totalPages;
+
     @SerializedName("results")
     @Expose
-    public List<Movie> results = null;
-
-    public List<Movie> getResults() {
-        return results;
-    }
+    public T results = null;
 }
