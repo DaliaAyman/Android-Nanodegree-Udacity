@@ -13,4 +13,10 @@ public class Constants {
     public static final String MOVIES_API_KEY_ATTRIBUTE = "api_key";
 
     public static final String POPULARITY_DESC_SORT_BY = "popularity.desc";
+
+    public static final String SORT_BY_KEY = "sortBy";
+    public static final String SORT_BY_MOST_POPULAR = "Most Popular";
+    public static final String SORT_BY_HIGHEST_RATED = "Highest Rated";
+
+
 }

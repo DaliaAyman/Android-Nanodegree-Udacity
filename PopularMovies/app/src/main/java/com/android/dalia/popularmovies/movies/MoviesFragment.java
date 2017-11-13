@@ -2,6 +2,7 @@ package com.android.dalia.popularmovies.movies;
 
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.android.dalia.popularmovies.R;
 import com.android.dalia.popularmovies.RecyclerViewAdapter;
 import com.android.dalia.popularmovies.models.Movie;
+import com.android.dalia.popularmovies.movies.sortby.SortByListener;
 import com.android.dalia.popularmovies.utils.Constants;
+import com.android.dalia.popularmovies.movies.sortby.SortByBottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MoviesFragment extends Fragment implements MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener{
+public class MoviesFragment extends Fragment implements
+        MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener, SortByListener{
 
     MoviesContract.Presenter mPresenter;
 
@@ -60,6 +64,34 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
     public void showMovies(List<Movie> movies) {
         Log.d("movies", "movies size = " + movies.size());
         moviesAdapter.addItems(movies);
+    }
+
+    @Override
+    public void showSortByMenu() {
+        BottomSheetDialogFragment bottomSheetDialogFragment = new SortByBottomSheetDialogFragment();
+        ((SortByBottomSheetDialogFragment)bottomSheetDialogFragment).setListener(this);
+
+        ArrayList<String> sortOptions = new ArrayList<>();
+        sortOptions.add(Constants.SORT_BY_MOST_POPULAR); sortOptions.add(Constants.SORT_BY_HIGHEST_RATED);
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(Constants.SORT_BY_KEY, sortOptions);
+        bottomSheetDialogFragment.setArguments(bundle);
+
+        bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+    @Override
+    public void sortByItemClicked(String itemClicked) {
+        switch (itemClicked){
+            case Constants.SORT_BY_HIGHEST_RATED:
+                Log.d("Sort", Constants.SORT_BY_HIGHEST_RATED);
+                break;
+
+            case Constants.SORT_BY_MOST_POPULAR:
+                Log.d("Sort", Constants.SORT_BY_MOST_POPULAR);
+                break;
+        }
     }
 
     @Override

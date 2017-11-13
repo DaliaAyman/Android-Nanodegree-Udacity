@@ -14,6 +14,7 @@ public interface MoviesContract {
     interface View extends BaseView<Presenter>{
         void setupRecyclerView();
         void showMovies(List<Movie> movies);
+        void showSortByMenu();
     }
 
     interface Presenter extends BasePresenter{
