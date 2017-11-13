@@ -1,6 +1,7 @@
 package com.android.dalia.popularmovies.movies;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.android.dalia.popularmovies.R;
 import com.android.dalia.popularmovies.RecyclerViewAdapter;
 import com.android.dalia.popularmovies.models.Movie;
+import com.android.dalia.popularmovies.moviedetails.MovieDetailActivity;
 import com.android.dalia.popularmovies.movies.sortby.SortByListener;
 import com.android.dalia.popularmovies.utils.Constants;
 import com.android.dalia.popularmovies.movies.sortby.SortByBottomSheetDialogFragment;
@@ -27,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MoviesFragment extends Fragment implements
-        MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener, SortByListener{
+        MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener, SortByListener, MovieItemListener{
 
     MoviesContract.Presenter mPresenter;
 
@@ -115,9 +117,23 @@ public class MoviesFragment extends Fragment implements
 
     @Override
     public void setupRecyclerView() {
-        moviesAdapter = new RecyclerViewAdapter(new ArrayList<Movie>());
+        moviesAdapter = new RecyclerViewAdapter(new ArrayList<Movie>(), this);
         moviesGridRecycler.setAdapter(moviesAdapter);
 
         moviesGridRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+    }
+
+    @Override
+    public void onMovieClick(Movie clickedMovie) {
+        Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.MOVIE_KEY, clickedMovie);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onMovieLongClick(Movie clickedMovie) {
+
     }
 }

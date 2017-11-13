@@ -20,5 +20,7 @@ public class Constants {
     public static final String SORT_BY_MOST_POPULAR = "Most Popular";
     public static final String SORT_BY_HIGHEST_RATED = "Highest Rated";
 
+    public static final String MOVIE_KEY = "movie";
+
 
 }

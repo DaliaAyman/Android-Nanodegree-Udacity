@@ -3,11 +3,13 @@ package com.android.dalia.popularmovies.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Dalia on 12/31/2016.
  */
 
-public class Movie {
+public class Movie implements Serializable{
     @SerializedName("title") @Expose
     String title;
     @SerializedName("poster_path") @Expose

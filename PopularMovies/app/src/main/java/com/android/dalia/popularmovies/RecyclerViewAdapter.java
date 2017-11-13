@@ -1,7 +1,5 @@
 package com.android.dalia.popularmovies;
 
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +23,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<Movie> movieList, MovieItemListener clickListener) {
         this.movieList = movieList;
         this.clickListener = clickListener;
-    }
-
-    public RecyclerViewAdapter(List<Movie> MovieList) {
-        this.movieList = MovieList;
     }
 
     @Override
@@ -56,6 +50,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return movieList.size();
     }
 
+    public Movie getItem(int position){
+        return movieList.get(position);
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -66,13 +64,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView movieImageView;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
 
             movieImageView = (ImageView) itemView.findViewById(R.id.movies_grid_item_image);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedMovie = getAdapterPosition();
+            clickListener.onMovieClick(getItem(clickedMovie));
         }
     }
 }
