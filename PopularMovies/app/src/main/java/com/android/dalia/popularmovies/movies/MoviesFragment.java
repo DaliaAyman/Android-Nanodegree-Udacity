@@ -18,6 +18,7 @@ import com.android.dalia.popularmovies.models.Movie;
 import com.android.dalia.popularmovies.movies.sortby.SortByListener;
 import com.android.dalia.popularmovies.utils.Constants;
 import com.android.dalia.popularmovies.movies.sortby.SortByBottomSheetDialogFragment;
+import com.android.dalia.popularmovies.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +58,14 @@ public class MoviesFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadMovies(Constants.POPULARITY_DESC_SORT_BY);
+        loadMoviesAccordingToSP();
     }
 
     @Override
     public void showMovies(List<Movie> movies) {
         Log.d("movies", "movies size = " + movies.size());
         moviesAdapter.addItems(movies);
+        moviesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -83,6 +85,8 @@ public class MoviesFragment extends Fragment implements
 
     @Override
     public void sortByItemClicked(String itemClicked) {
+        SharedPreferencesUtils.saveSortByValueToSharedPreferences(getContext(), itemClicked);
+
         switch (itemClicked){
             case Constants.SORT_BY_HIGHEST_RATED:
                 Log.d("Sort", Constants.SORT_BY_HIGHEST_RATED);
@@ -92,6 +96,11 @@ public class MoviesFragment extends Fragment implements
                 Log.d("Sort", Constants.SORT_BY_MOST_POPULAR);
                 break;
         }
+        loadMoviesAccordingToSP();
+    }
+
+    private void loadMoviesAccordingToSP(){
+        mPresenter.loadMovies(SharedPreferencesUtils.getSortByValueFromSharedPreferences(getContext()));
     }
 
     @Override

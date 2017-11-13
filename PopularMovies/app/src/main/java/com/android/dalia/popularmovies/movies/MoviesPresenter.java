@@ -34,9 +34,11 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void loadMovies(String popularity) {
+    public void loadMovies(String sortByOption) {
+        String sortByAPI = getSortByAPIVal(sortByOption);
+
         moviesRemoteDataSource.getAPI()
-                .listMovies(popularity, Constants.MOVIES_DB_API_KEY_VALUE)
+                .listMovies(sortByAPI, Constants.MOVIES_DB_API_KEY_VALUE)
                 .enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
@@ -48,6 +50,19 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                 Log.d("MoviesPresenter", "onFailure loading movies " + t);
             }
         });
+    }
+
+    private String getSortByAPIVal(String option) {
+        switch (option){
+            case Constants.SORT_BY_MOST_POPULAR:
+                return Constants.POPULARITY_DESC_SORT_BY;
+
+            case Constants.SORT_BY_HIGHEST_RATED:
+                return Constants.RATED_DESC_SORT_BY;
+
+            default:
+                return null;
+        }
     }
 
     public interface MoviesPresenterNotifyViewListener{
