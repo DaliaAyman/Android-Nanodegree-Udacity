@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface MovieDetailContract {
     interface View extends BaseView<MovieDetailContract.Presenter> {
-
+        void showSelectedMovie(Movie movie);
     }
 
     interface Presenter extends BasePresenter {

@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,9 @@ public class MoviesFragment extends Fragment implements
     @BindView(R.id.movies_grid_recycler)
     RecyclerView moviesGridRecycler;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     public MoviesFragment() {
         // Required empty public constructor
     }
@@ -50,6 +55,8 @@ public class MoviesFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         ButterKnife.bind(this, view);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         mPresenter = new MoviesPresenter(this, this);
         setupRecyclerView();
