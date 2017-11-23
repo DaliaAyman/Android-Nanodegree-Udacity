@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.dalia.popularmovies.R;
 import com.android.dalia.popularmovies.models.Movie;
@@ -23,7 +24,15 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
     MovieDetailContract.Presenter mPresenter;
 
     @BindView(R.id.poster_movie_detail)
-    ImageView posterImage;
+    ImageView posterImageIv;
+    @BindView(R.id.tv_title)
+    TextView titleTv;
+    @BindView(R.id.tv_description)
+    TextView descriptionTv;
+    @BindView(R.id.tv_year)
+    TextView yearTv;
+    @BindView(R.id.tv_rating)
+    TextView ratingTv;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -36,7 +45,12 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
     public void showSelectedMovie(Movie clickedMovie){
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//" + clickedMovie.getPosterImage())
-                .into(posterImage);
+                .into(posterImageIv);
+
+        titleTv.setText(clickedMovie.getTitle());
+        descriptionTv.setText(clickedMovie.getOverview());
+        yearTv.setText(clickedMovie.getReleaseDate().substring(0, 4));
+        ratingTv.setText(String.valueOf(clickedMovie.getVoteAverage()) + "/10");
     }
 
     @Override
