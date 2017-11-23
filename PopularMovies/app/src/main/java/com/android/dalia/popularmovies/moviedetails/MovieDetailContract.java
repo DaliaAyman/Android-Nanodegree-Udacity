@@ -17,6 +17,7 @@ public interface MovieDetailContract {
     }
 
     interface Presenter extends BasePresenter {
-
+        void loadTrailers(String movieId);
+        void loadReviews(String movieId);
     }
 }

@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MoviesFragment extends Fragment implements
-        MoviesContract.View, MoviesPresenter.MoviesPresenterNotifyViewListener, SortByListener, MovieItemListener{
+        MoviesContract.View, SortByListener, MovieItemListener{
 
     MoviesContract.Presenter mPresenter;
 
@@ -58,7 +58,7 @@ public class MoviesFragment extends Fragment implements
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        mPresenter = new MoviesPresenter(this, this);
+        mPresenter = new MoviesPresenter(this);
         setupRecyclerView();
 
         return view;
@@ -110,11 +110,6 @@ public class MoviesFragment extends Fragment implements
 
     private void loadMoviesAccordingToSP(){
         mPresenter.loadMovies(SharedPreferencesUtils.getSortByValueFromSharedPreferences(getContext()));
-    }
-
-    @Override
-    public void moviesLoaded(List<Movie> movies) {
-        showMovies(movies);
     }
 
     @Override

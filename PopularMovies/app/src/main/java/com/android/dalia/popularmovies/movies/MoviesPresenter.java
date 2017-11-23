@@ -20,15 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MoviesPresenter implements MoviesContract.Presenter{
     MoviesContract.View mMoviesView;
-    MoviesPresenterNotifyViewListener mListener;
     MoviesRemoteDataSource moviesRemoteDataSource;
 
-    public MoviesPresenter(MoviesContract.View mMoviesView, MoviesPresenterNotifyViewListener mListener) {
+    public MoviesPresenter(MoviesContract.View moviesView) {
 
-        mMoviesView = checkNotNull(mMoviesView);
+        mMoviesView = checkNotNull(moviesView);
         mMoviesView.setPresenter(this);
 
-        this.mListener = mListener;
         moviesRemoteDataSource = new MoviesRemoteDataSource();
 
     }
@@ -42,7 +40,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                 .enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
-                mListener.moviesLoaded(response.body());
+//                mListener.moviesLoaded(response.body());
+                mMoviesView.showMovies(response.body());
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
     TextView yearTv;
     @BindView(R.id.tv_rating)
     TextView ratingTv;
+    @BindView(R.id.rv_trailers)
+    RecyclerView trailersRecyclerView;
+    @BindView(R.id.rv_reviews)
+    RecyclerView reviewsRecyclerView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -51,6 +56,19 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
         descriptionTv.setText(clickedMovie.getOverview());
         yearTv.setText(clickedMovie.getReleaseDate().substring(0, 4));
         ratingTv.setText(String.valueOf(clickedMovie.getVoteAverage()) + "/10");
+
+        loadTrailersAndReviews(clickedMovie.getId());
+    }
+
+    private void loadTrailersAndReviews(String movieId) {
+        mPresenter.loadTrailers(movieId);
+        mPresenter.loadReviews(movieId);
+    }
+
+    private void showTrailersInRecyclerView() {
+    }
+
+    private void showReviewsInRecyclerView() {
     }
 
     @Override
@@ -60,6 +78,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
         ButterKnife.bind(this, view);
+
+        mPresenter = new MovieDetailPresenter(this);
 
         return view;
     }

@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 
 public class Movie implements Serializable{
+    @SerializedName("id") @Expose
+    String id;
     @SerializedName("title") @Expose
     String title;
     @SerializedName("poster_path") @Expose
@@ -27,6 +29,10 @@ public class Movie implements Serializable{
         this.posterImage = posterImage;
         this.releaseDate = releaseDate;
         this.voteAverage = voteAverage;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getOverview() {
