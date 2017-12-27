@@ -25,4 +25,18 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+
+    <style name="titleTextView" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
+    <style name="subtitleTextView" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
 </resources>
