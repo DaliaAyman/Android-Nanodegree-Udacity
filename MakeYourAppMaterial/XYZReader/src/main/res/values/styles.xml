@@ -25,6 +25,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="ToolBarWithNavigationBack">
+        <item name="navigationIcon">@drawable/abc_ic_ab_back_material</item>
+    </style>
 
     <style name="titleTextView" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:fontFamily">sans-serif</item>

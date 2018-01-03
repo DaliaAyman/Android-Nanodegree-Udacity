@@ -20,7 +20,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"> <!-- match parent ?-->
+            app:expandedTitleMarginEnd="64dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
