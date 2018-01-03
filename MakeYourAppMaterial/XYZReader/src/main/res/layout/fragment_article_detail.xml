@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:id="@+id/coordinator_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryLight"
             app:layout_scrollFlags="scroll|snap|enterAlways"
             app:theme="@style/ThemeOverlay.AppCompat.Light"
             style="@style/ToolBarWithNavigationBack">
@@ -54,6 +55,7 @@
                     android:paddingTop="@dimen/detail_metabar_vert_padding"
                     android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
                     android:textColor="@android:color/black"
+                    android:textStyle="bold"
                     tools:text="TITLE"/>
 
                 <TextView
@@ -93,6 +95,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/detail_inner_horiz_margin"
+        android:backgroundTint="@color/colorAccent"
+        app:borderWidth="0dp"
         android:id="@+id/share_fab"
         android:src="@drawable/ic_share"
         android:layout_gravity="bottom|right|end"/>
