@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:background="@color/photo_placeholder"
             android:scaleType="fitXY"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:transitionName="@string/transition_photo"/>
 
         <TextView
             android:id="@+id/article_title"
