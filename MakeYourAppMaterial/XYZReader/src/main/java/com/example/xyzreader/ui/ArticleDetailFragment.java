@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +32,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
+import com.example.xyzreader.data.ConnectionReceiver;
+import com.example.xyzreader.remote.Config;
 
 /**
  * A fragment representing a single Article detail screen. This fragment is
@@ -37,13 +41,13 @@ import com.example.xyzreader.data.ArticleLoader;
  * tablets) or a {@link ArticleDetailActivity} on handsets.
  */
 public class ArticleDetailFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, ConnectionReceiver.OnNetworkChange {
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
     private Cursor mCursor;
     private long mItemId;
-    private View mRootView;
+    private View mRootView; private CoordinatorLayout mCoordinatorLayout;
     private ImageView mPhotoView;
     private Toolbar mToolbar;
     private boolean mIsCard = false;
@@ -103,6 +107,7 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
+        mCoordinatorLayout = (CoordinatorLayout) mRootView.findViewById(R.id.coordinator_layout);
         mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,8 +184,13 @@ public class ArticleDetailFragment extends Fragment implements
                         public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                             Bitmap bitmap = imageContainer.getBitmap();
                             if (bitmap != null) {
-                                Palette p = Palette.generate(bitmap, 12);
-                                mPhotoView.setImageBitmap(imageContainer.getBitmap());
+                                Palette.from(imageContainer.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+                                    @Override
+                                    public void onGenerated(Palette palette) {
+                                        mToolbar.setBackgroundColor(palette.getLightVibrantColor(getResources().getColor(R.color.colorPrimaryLight)));
+                                    }
+                                });
+                                mPhotoView.setImageBitmap(bitmap);
                             }
                         }
 
@@ -225,5 +235,15 @@ public class ArticleDetailFragment extends Fragment implements
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mCursor = null;
         bindViews();
+    }
+
+    @Override
+    public void onNetworkDisconnected(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void showSnack(boolean isConnected) {
+        if(!isConnected)
+            Snackbar.make(mCoordinatorLayout, Config.INTERNET_CONNECTION_ERROR, Snackbar.LENGTH_SHORT).show();
     }
 }
