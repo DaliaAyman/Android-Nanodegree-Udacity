@@ -12,6 +12,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +42,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An activity representing a list of Articles. This activity has different presentations for
@@ -54,6 +59,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     private CoordinatorLayout mCoordinatorLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private Adapter mAdapter;
 
     ConnectionReceiver mConnectionReceiver;
 
@@ -65,6 +71,8 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActivityCompat.setExitSharedElementCallback(this, exitTransitionCallback);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
@@ -82,6 +90,21 @@ public class ArticleListActivity extends AppCompatActivity implements
 
         checkConnection();
     }
+
+    private final SharedElementCallback exitTransitionCallback = new SharedElementCallback() {
+        @Override
+        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+            if (ArticleDetailActivity.selectedIndex < 0) {
+                // When transitioning out, use the view already specified in makeSceneTransition
+            } else {
+                // When transitioning back in, use the thumbnail at index the user had swiped to in the pager activity
+                sharedElements.put(names.get(0),
+                        mAdapter.getViewAtIndex(mRecyclerView, ArticleDetailActivity.selectedIndex));
+                Log.d("TAG__ListASelectedIndex", String.valueOf(ArticleDetailActivity.selectedIndex));
+                ArticleDetailActivity.selectedIndex = -1;
+            }
+        }
+    };
 
     private void refresh() {
         startService(new Intent(this, UpdaterService.class));
@@ -136,9 +159,9 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Adapter adapter = new Adapter(cursor);
-        adapter.setHasStableIds(true);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new Adapter(cursor);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
         int columnCount = getResources().getInteger(R.integer.list_column_count);
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
@@ -173,8 +196,10 @@ public class ArticleListActivity extends AppCompatActivity implements
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
 
+                    intent.putExtra(ArticleDetailActivity.EXTRA_POSITION, vh.getLayoutPosition());
+
                     View sharedView = vh.thumbnailView;
-                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             ArticleListActivity.this, sharedView, sharedView.getTransitionName()
                     ).toBundle();
                     startActivity(intent, bundle);
@@ -223,6 +248,22 @@ public class ArticleListActivity extends AppCompatActivity implements
         @Override
         public int getItemCount() {
             return mCursor.getCount();
+        }
+
+        public View getViewAtIndex(RecyclerView recycler, int index) {
+            if (index >= 0) {
+                for (int i=0; i<recycler.getChildCount(); i++) {
+                    View child = recycler.getChildAt(i);
+
+                    int pos = recycler.getChildAdapterPosition(child);
+                    if (pos == index) {
+                        return child;
+                    }
+                }
+            }
+
+            // There is no view for this index - it is offscreen
+            return null;
         }
     }
 

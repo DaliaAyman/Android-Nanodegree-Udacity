@@ -51,6 +51,7 @@ public class ArticleDetailFragment extends Fragment implements
     private ImageView mPhotoView;
     private Toolbar mToolbar;
     private boolean mIsCard = false;
+    private static int mTag;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -63,6 +64,10 @@ public class ArticleDetailFragment extends Fragment implements
      * fragment (e.g. upon screen orientation changes).
      */
     public ArticleDetailFragment() {
+    }
+
+    public static void setPosition(int mTag) {
+        ArticleDetailFragment.mTag = mTag;
     }
 
     public static ArticleDetailFragment newInstance(long itemId) {
@@ -128,6 +133,8 @@ public class ArticleDetailFragment extends Fragment implements
         });
 
         bindViews();
+
+        mRootView.setTag(R.id.index, mTag);
         return mRootView;
     }
 
