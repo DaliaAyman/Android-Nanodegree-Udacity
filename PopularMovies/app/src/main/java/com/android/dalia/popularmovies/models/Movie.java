@@ -1,30 +1,46 @@
-package com.android.dalia.popularmovies;
+package com.android.dalia.popularmovies.models;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Created by Dalia on 12/31/2016.
  */
 
-public class Movie {
+public class Movie implements Serializable{
+    @SerializedName("id") @Expose
+    String id;
+    @SerializedName("title") @Expose
     String title;
+    @SerializedName("poster_path") @Expose
     String posterImage;
-    String overView;
+    @SerializedName("overview") @Expose
+    String overview;
+    @SerializedName("vote_average") @Expose
     double voteAverage;
+    @SerializedName("release_date") @Expose
     String releaseDate;
 
-    public Movie(String title, String overView, String posterImage, String releaseDate, double voteAverage) {
+    public Movie(String title, String overview, String posterImage, String releaseDate, double voteAverage) {
         this.title = title;
-        this.overView = overView;
+        this.overview = overview;
         this.posterImage = posterImage;
         this.releaseDate = releaseDate;
         this.voteAverage = voteAverage;
     }
 
-    public String getOverView() {
-        return overView;
+    public String getId() {
+        return id;
     }
 
-    public void setOverView(String overView) {
-        this.overView = overView;
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getPosterImage() {
